@@ -1,13 +1,9 @@
 <?php
+include_once('Conf.php');
 
-$login='jannou';
-define('MDP','mdp');
-$bd='siteCorpo';
-
-define('DSN','pgsql:host=localhost;port=5432;dbname='.$bd);
+define('DSN','pgsql:host='.Conf::$db['host'].';port='.Conf::$db['port'].';dbname='.Conf::$db['database']);
 try {
-	$connexion=new PDO(DSN,$login,MDP); 
-	print_r($connexion);
+	$connexion=new PDO(DSN,Conf::$db['login'],Conf::$db['mdp']);
 }
 	catch (PDOException $e){
 	echo "erreur de type : " . $e->getMessage() . "<br/>";
