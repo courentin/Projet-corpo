@@ -25,7 +25,7 @@ include_once('view/templateStart.php'); ?>
 			<input id="mdp" name="mdp" type="password" class="form-control" >
 			<span id="helpBlock2" class="help-block"><?php if(isset($err['mdp'])) echo $err['mdp']; ?></span>
 		</div>
-		<div class="form-group">
+			<div class="form-group <?php  if(isset($err['cmdp'])) echo 'has-error'; ?>">
 			<label for="cmdp">Confirmation mdp</label>
 			<input id="cmdp" name="cmdp" type="password" class="form-control" >
 			<span id="helpBlock2" class="help-block"><?php if(isset($err['cmdp'])) echo $err['cmdp']; ?></span>
