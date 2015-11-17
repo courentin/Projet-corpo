@@ -29,18 +29,44 @@ class Utilisateur {
 		return($exec);
 
 	}
+/*
+
+	public static function rechercherParMail($mail)
+	{
+		include("connexionBDD.php");
+		$requete = "select idUtilisateur nom ,prenom, mdp, mail from user where mail='$mail'";
+		$exec = $connexion->query($requete);
+
+		$nbLignes = $exec->rowCount();
+
+		if ( $nbLignes < 1)
+			return false ;
+		else if ( $nbLignes == 1){
+			
+
+
+			$utilisateur = new Utilisateur($exec['nom'],$exec['prenom'],$exec['mail'],$exec['mdp'],);
+			return $utilisateur;
+		}
+		else throw new Exception(); 
+
+		include("fermetureBD.php");
+
+	}	
+
 
 	public static function existe($mail,$map)
 	{
 		include("connexionBDD.php");
 		$requete = "select idUtilisateur from utilisateur where mail = $mail and MotdePasse = ".$this->cryptMdp($mdp);
 
+
 		$exec=$connexion->query($requete);
 		var_dump($exec);
 		return($exec);
 
 	}
-
+*/
 	public function cryptMdp($mdp)
 	{
 		return sha1($mdp);
