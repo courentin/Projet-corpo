@@ -11,7 +11,7 @@
 			$rangPageSql = "SELECT idRang FROM Rang WHERE nomRang='".$rangAutorise."'";
 			$rangPageExec = $connexion->query($rangPageSql);
 			$rangPage = $rangPageExec->fetch(PDO::FETCH_ASSOC);
-			
+
 			//recupere l'id du rang de l'utilisateur
 			$rangUtilisateurSql = "SELECT rang FROM Utilisateur WHERE idUtilisateur =".$_SESSION['idUtilisateur'];
 			$rangUtilisateurExec = $connexion->query($rangUtilisateurSql);
@@ -26,7 +26,7 @@
 			{
 				header("Location:index.php");
 				exit();
-			}
+			}  
 		}
 	}
 
