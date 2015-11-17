@@ -25,7 +25,7 @@ class Utilisateur {
 
 		$exec=$connexion->exec($requete);
 
-		//include("fermetureBD.php");
+		include("deconnexionBDD.php");
 		return($exec);
 
 	}
