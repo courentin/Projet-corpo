@@ -51,3 +51,10 @@ CREATE TABLE Reduction (
 idReduction serial PRIMARY KEY,
 seuil numeric(10,2) NOT NULL,
 reduction numeric(10,2) NOT NULL);
+
+INSERT INTO Rang VALUES
+	(0, 'President', true),
+	(1, 'Tresorier', true),
+	(2, 'Bureau', true),
+	(3, 'Adherent', true),
+	(4, 'Non-adherent', false);
