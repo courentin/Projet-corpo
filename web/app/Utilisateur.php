@@ -19,15 +19,8 @@ class Utilisateur {
 	 */
 	public function ajouter()
 	{
-		include("connexionBDD.php");
-		
-		$requete = "insert into utilisateur (mail, nom, prenom, motDePasse,solde, rang ) values('$this->email','$this->nom','$this->prenom','".$this->cryptMdp($this->mdp)."', 0, 0)";
-
-		$exec=$connexion->exec($requete);
-
-		include("deconnexionBDD.php");
-		return($exec);
-
+		$db = App::getDatabase();
+		return $db->query("insert into utilisateur (mail, nom, prenom, motDePasse,solde, rang ) values('$this->email','$this->nom','$this->prenom','".$this->cryptMdp($this->mdp)."', 0, 0)");
 	}
 /*
 

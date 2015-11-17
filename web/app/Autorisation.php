@@ -4,7 +4,7 @@
 	*/
 	class Autorisation
 	{
-		public static function autoriser($rangAutorise)
+		public static function autoriser($rangAutorise, $redirect = null)
 		{
 			include("connexionBDD.php");
 			//recupere l'id du rang autorise sur la page
@@ -19,16 +19,18 @@
 
 			include("deconnexionBDD.php");
 
-			if($rangUtilisateur['rang'] <= $rangPage['idrang'])
-			{
-			}
-			else
-			{
-				header("Location:index.php");
+			if($rangUtilisateur['rang'] > $rangPage['idrang']) {
+				header("HTTP/1.1 401 Unauthorized");
+				if($redirect != null) header("Location: $redirect");
 				exit();
-			}  
+			}
+		}
+
+		private static function getSessionRang() {
+
 		}
 	}
 
-	
+	Autorisation::autoriser(Rang::ADHERENT);
+
 ?>

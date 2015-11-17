@@ -1,6 +1,6 @@
 <?php
 
-include_once 'Utilisateur.php';
+require_once 'include.php';
 define('INSCRIPTION_VIEW', 'view/inscription.php');
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
