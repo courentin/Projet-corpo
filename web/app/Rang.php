@@ -2,14 +2,41 @@
 
 class Rang
 {
-	const PRESIDENT    = 'President';
-	const ADHERENT     = 'Adherent';
-	const NON_ADHERENT = 'Non-adherent';
-	const BUREAU       = 'Bureau';
-	const TRESORIER    = 'Tresorier';
+	const PRESIDENT    = 0;
+	const TRESORIER    = 1;
+	const BUREAU       = 2;
+	const ADHERENT     = 3;
+	const NON_ADHERENT = 4;
 
 	private $label;
 	private $reduction;
+	private $id;
+
+	public function __construct($id = false) {
+		if($id) {
+			$db = App::getDatabase();
+			$rang = $db->query("SELECT * FROM Rang WHERE idRang = ?", array($id));
+			$rang = $rang->fetch(PDO::FETCH_ASSOC);
+			if(!$rang) throw new InvalidArgumentException();
+			$this->setLabel($rang['nomRang'])
+			     ->setLabel($rang['reduction'])
+			     ->setId($rang['idRang']);
+		}
+	}
+
+	public function __toString()
+	{
+		return $this->label;
+	}
+
+	public function getId() {
+		return $this->id;
+	}
+
+	public function setId($id) {
+		$this->id = $id;
+		return $this;
+	}
 
 	public function setLabel($label) {
 		$this->label = $label;
@@ -29,7 +56,7 @@ class Rang
 		return $this->reduction;
 	}
 
-	public function fromBdd($id) {
+	public function loadById($id) {
 		include("connexionBDD.php");
 
 		$req = $connexion->prepare('SELECT nomRang, reduction FROM Rang WHERE idRang = ?');

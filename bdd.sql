@@ -18,7 +18,7 @@ nom text NOT NULL,
 prenom text NOT NULL,
 mail text UNIQUE NOT NULL,
 motDePasse text NOT NULL,
-solde numeric(10,2) NOT NULL,
+solde numeric(10,2),
 rang int NOT NULL REFERENCES Rang);
 
 CREATE TABLE DemandeCarte (

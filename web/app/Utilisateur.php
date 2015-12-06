@@ -1,26 +1,58 @@
 <?php 
 
 class Utilisateur {
-	private $nom;
+	private $id    = false;
+	private $rang  = Rang::NON_ADHERENT;
+	private $solde = null;
 	private $prenom;
+	private $nom;
 	private $mdp;
 	private $email;
 	
-	public function __construct($nom,$prenom,$email,$mdp)
+	public function __construct($id = false)
 	{
-		$this->nom=$nom;
-		$this->prenom=$prenom;
-		$this->email=$email;
-		$this->mdp=$mdp;
+		if($id) {
+			$db = App::getDatabase();
+			$user = $db->query('SELECT * FROM utilisateur JOIN rang ON idRang = rang WHERE idUtilisateur = ?', [ $id ])->fetch(PDO::FETCH_ASSOC);
+			if(!$user) throw new InvalidArgumentException();
+
+			$rang = new Rang();
+			$rang->setId($user['idrang'])
+			     ->setLabel($user['nomrang'])
+			     ->setReduction($user['reduction']);
+
+			$this->setId($user['idutilisateur'])
+			     ->setEmail($user['mail'])
+			     ->setNom($user['nom'])
+			     ->setPrenom($user['prenom'])
+			     ->setMdp($user['motdepasse'])
+			     ->setSolde($user['solde'])
+			     ->setRang($rang);
+		}
 	}
 
 	/**
-	 * Ajoute un utilisateur en BDD
+	 * Ajoute ou met a jour un utilisateur en BDD
 	 */
-	public function ajouter()
+	public function save()
 	{
 		$db = App::getDatabase();
-		return $db->query("insert into utilisateur (mail, nom, prenom, motDePasse,solde, rang ) values('$this->email','$this->nom','$this->prenom','".$this->cryptMdp($this->mdp)."', 0, 0)");
+		try {
+			if($this->id) { // UPDATE
+
+			} else { // INSERT
+				return $db->query("INSERT INTO utilisateur (mail, nom, prenom, motDePasse, solde, rang) VALUES (?, ?, ?, ?, ?, ?)", [
+					$this->getEmail(),
+					$this->getNom(),
+					$this->getPrenom(),
+					$this->cryptMdp($this->mdp),
+					$this->getSolde(),
+					$this->getRang()->getId()
+				]);
+			}
+		} catch(PDOException $e) {
+			return false;
+		}
 	}
 /*
 
@@ -103,5 +135,172 @@ class Utilisateur {
 	{
 		return strtoupper($this->nom) . ' ' . ucfirst($this->prenom) ;
 	}
-}
 
+    /**
+     * Gets the value of id.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Sets the value of id.
+     *
+     * @param mixed $id the id
+     *
+     * @return self
+     */
+    private function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of rang.
+     *
+     * @return mixed
+     */
+    public function getRang()
+    {
+        return $this->rang;
+    }
+
+    /**
+     * Sets the value of rang.
+     *
+     * @param mixed $rang the rang
+     *
+     * @return self
+     */
+    private function setRang(Rang $rang)
+    {
+        $this->rang = $rang;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of solde.
+     *
+     * @return mixed
+     */
+    public function getSolde()
+    {
+        return $this->solde;
+    }
+
+    /**
+     * Sets the value of solde.
+     *
+     * @param mixed $solde the solde
+     *
+     * @return self
+     */
+    private function setSolde($solde)
+    {
+        $this->solde = $solde;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of prenom.
+     *
+     * @return mixed
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * Sets the value of prenom.
+     *
+     * @param mixed $prenom the prenom
+     *
+     * @return self
+     */
+    private function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of nom.
+     *
+     * @return mixed
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Sets the value of nom.
+     *
+     * @param mixed $nom the nom
+     *
+     * @return self
+     */
+    private function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of mdp.
+     *
+     * @return mixed
+     */
+    public function getMdp()
+    {
+        return $this->mdp;
+    }
+
+    /**
+     * Sets the value of mdp.
+     *
+     * @param mixed $mdp the mdp
+     *
+     * @return self
+     */
+    private function setMdp($mdp)
+    {
+        $this->mdp = $mdp;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of email.
+     *
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Sets the value of email.
+     *
+     * @param mixed $email the email
+     *
+     * @return self
+     */
+    private function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+}

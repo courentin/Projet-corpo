@@ -1,5 +1,5 @@
 <?php
-include_once('Conf.php');
+include_once('include.php');
 
 define('DSN','pgsql:host='.Conf::$db['host'].';port='.Conf::$db['port'].';dbname='.Conf::$db['database']);
 try {
