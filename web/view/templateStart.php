@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
 	<title>Corpo<?php if(defined('TITRE')) echo ' - '.TITRE?></title>
 	<link rel="stylesheet" href="../public/bootstrap.css" />
 </head>

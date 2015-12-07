@@ -28,41 +28,61 @@ class Compte extends Controller
 				$err['global'] = 'Tous les champs doivent être complétés';
 			}
 		}
-		$this->render('inscription', ['err' => $err]);
+		$this->render('inscription', ['err' => isset($err) ? $err : array()]);
 	}
 
 
 
 	public function identification()
 	{
-		$mail = $_POST['identification']['email'];
-		$MDP = $_POST['identification']['MDP'];
+		$err = [];
+		if($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$mail = $_POST['identification']['email'];
+			$MDP = $_POST['identification']['MDP'];
 
-	  if(strlen($mail) != 0 && strlen($MDP) != NULL )
+			if(strlen($mail) != 0 && strlen($MDP) != NULL ) {
+				$db = App::getDatabase();
+			
+				$req = $db->query('select mail, idutilisateur,nom,prenom,solde,rang from Utilisateur  
+	                                   where mail  = ?
+	                                   and motdepasse = ? ', array($mail,
+	                                   	Utilisateur::cryptMdp($MDP)
+	                                   	));
+			
+				$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+				var_dump($resultat);
+	        }
 
-	   { 
-		$db = App::getDatabase();
-		
-		$req = $db->query('select mail, idutilisateur,nom,prenom,solde,rang from Utilisateur  
-                                   where mail  = ?
-                                   and motdepasse = ? ', array($mail,$MDP));
-		
-		$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-   
-           }
+			if (sizeof($resultat) == 1) {
+				$_SESSION['utilisateur'] = $resultat[0];
+				$this->redirect('');
+			} else {
+				$err['global'] = "Identifiants incorrects";
+			}
+		}
 
-	 if (sizeof($resultat) == 1)
-	  {
-		session_start();
-            	$_SESSION['utilisateur'] = $resultat;
-		
-	  }
-		$this->render('identification');
+
+		$this->render('identification', [
+			'err' => $err
+		]);
+	}
+
+	public function deconnexion()
+	{
+		unset($_SESSION['utilisateur']);
 	}
 
 	public function index()
 	{
-		$this->render('index');
+		$db = App::getDatabase();
+		$query = $db->query('select idcommande from commande where idutilisateur = ? limit 10', array(
+			$_SESSION['utilisateur']['idutilisateur'];
+		));
+		$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+		$this->render('index', [
+			'commandes' => $result
+		]);
 	}
 /*
 	public function demandeAdhesion()

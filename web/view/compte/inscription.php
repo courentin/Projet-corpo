@@ -3,7 +3,7 @@ define('TITRE', 'Inscription');
 ?>
 <div class="row">
 	<h1>Inscription</h1>
-	<form method="POST" action="/compte/inscription" class="col-md-6">
+	<form method="POST" action="" class="col-md-6">
 		<?php
 		$form = new FormHelper('inscription', array(
 			'defaultValues' => $_POST,

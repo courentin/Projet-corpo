@@ -1,13 +1,13 @@
 <?php 
 
 class Utilisateur {
-	private $id    = false;
-	private $rang  = Rang::NON_ADHERENT;
-	private $solde = null;
-	private $prenom;
-	private $nom;
-	private $mdp;
-	private $email;
+	public  $id    = false;
+	public  $rang  = Rang::NON_ADHERENT;
+	public  $solde = null;
+	public  $prenom;
+	public  $nom;
+	public  $mdp;
+	public  $email;
 	
 	public function __construct($id = false)
 	{
@@ -29,6 +29,8 @@ class Utilisateur {
 			     ->setSolde($user['solde'])
 			     ->setRang($rang);
 		}
+
+        $this->rang = new Rang(4);
 	}
 
 	/**
@@ -51,6 +53,7 @@ class Utilisateur {
 				]);
 			}
 		} catch(PDOException $e) {
+            var_dump($e);
 			return false;
 		}
 	}
@@ -92,7 +95,7 @@ class Utilisateur {
 
 	}
 */
-	public function cryptMdp($mdp)
+	public static function cryptMdp($mdp)
 	{
 		return sha1($mdp);
 	}
@@ -124,10 +127,10 @@ class Utilisateur {
 
 		if($utilisateur['mdp'] !== $utilisateur['cmdp'])
 			$erreurs['cmdp'] = 'Les mots de passe sont différents';
-
+/*
 		if(!eregi(".*@.*\.[A-z]{1,4}", $utilisateur['email']))
 			$erreurs['email'] = "L'email n'est pas valide";
-
+*/
 		return (sizeof($erreurs) == 0) ? null : $erreurs;
 	}
 
@@ -153,7 +156,7 @@ class Utilisateur {
      *
      * @return self
      */
-    private function setId($id)
+    public  function setId($id)
     {
         $this->id = $id;
 
@@ -177,7 +180,7 @@ class Utilisateur {
      *
      * @return self
      */
-    private function setRang(Rang $rang)
+    public  function setRang(Rang $rang)
     {
         $this->rang = $rang;
 
@@ -201,7 +204,7 @@ class Utilisateur {
      *
      * @return self
      */
-    private function setSolde($solde)
+    public  function setSolde($solde)
     {
         $this->solde = $solde;
 
@@ -225,7 +228,7 @@ class Utilisateur {
      *
      * @return self
      */
-    private function setPrenom($prenom)
+    public  function setPrenom($prenom)
     {
         $this->prenom = $prenom;
 
@@ -249,7 +252,7 @@ class Utilisateur {
      *
      * @return self
      */
-    private function setNom($nom)
+    public  function setNom($nom)
     {
         $this->nom = $nom;
 
@@ -273,7 +276,7 @@ class Utilisateur {
      *
      * @return self
      */
-    private function setMdp($mdp)
+    public  function setMdp($mdp)
     {
         $this->mdp = $mdp;
 
@@ -297,7 +300,7 @@ class Utilisateur {
      *
      * @return self
      */
-    private function setEmail($email)
+    public  function setEmail($email)
     {
         $this->email = $email;
 
