@@ -14,6 +14,6 @@ class Controller
 
 	protected function redirect($route)
 	{
-		header("Location: $route");
+		header("Location: ".WEBROOT."$route");
 	}
 }

@@ -19,13 +19,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Corpo</a>
+      <a class="navbar-brand" href="<?= App::route('') ?>">Corpo</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-           <li class="active"><a href="#">Compte<span class="sr-only">(current)</span></a></li>
+           <li class="active"><a href="<?= App::route('compte') ?>">
+           <?php 
+            if(isset($_SESSION['utilisateur'])) echo strtoupper($_SESSION['utilisateur']['nom']) . " ".ucfirst($_SESSION['utilisateur']['prenom']) ?>
+           <span class="sr-only">(current)</span></a></li>
           <li><a href="#">Carte</a></li>
           <li><a href="#">Commande</a></li>
           <li><a href="/utilisateurs" >Gestion utilisateurs</a></li>
@@ -34,7 +37,7 @@
       </ul>
 
       <?php if(isset($_SESSION['utilisateur'])): ?>
-      <a href="" type="button" class="btn btn-default navbar-btn">Deconnexion</a href="">
+      <a href="<?= App::route('compte/deconnexion') ?>" type="button" class="btn btn-default navbar-btn">Deconnexion</a href="">
       <?php else: ?>
       <a href="<?= App::route('compte/identification') ?>" type="button" class="btn btn-default navbar-btn">S'identifier</a>
       <?php endif; ?>
