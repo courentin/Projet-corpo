@@ -75,6 +75,7 @@ class Compte extends Controller
 	public function index()
 	{
 		$db = App::getDatabase();
+
 		$query = $db->query('select idcommande from commande where idutilisateur = ? limit 10', array(
 			$_SESSION['utilisateur']['idutilisateur'];
 		));
@@ -100,4 +101,49 @@ class Compte extends Controller
 		$this->redirect('/compte/index');
 	}
 	*/
+
+		
+		$req = $db->query('select mail, idutilisateur,nom,prenom,solde,rang from Utilisateur  
+                                   where mail  = ?
+                                   and motdepasse = ? ', array($mail,$MDP));
+		
+		$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+   
+           }
+
+	 if (sizeof($resultat) == 1)
+	  {
+		session_start();
+        $_SESSION['utilisateur'] = $resultat;
+		
+	  }
+		$this->render('identification');
+	}
+
+	/**
+	* /compte/valideradhesion/1/Valide
+	*/
+	public function valideradhesion($id,$status)
+	{
+		//$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
+		$idValideur=1;
+
+	  if(strlen($id) != 0 && strlen($status) != 0)
+
+	   { 
+		$db = App::getDatabase();
+		
+		$req = $db->query('update demandecarte set 
+								   status = ? 
+								   valideur = ? 
+                                   where idutilisateur  = ? ', array($status,$idValideur,$id));
+	   }
+
+
+	 if (sizeof($resultat) == 1)
+	  {
+		$this->redirect('utilisateurs/index');
+	  }
+	
+	}
 }
