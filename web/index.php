@@ -13,7 +13,7 @@ $action = (isset($param[1]) && !empty($param[1])) ? $param[1] : 'index';
 $controller = ucfirst($controller);
 
 $path = "controller/$controller.php";
-
+session_start();
 if(file_exists($path)) {
 	require $path;
 	$controller = new $controller();
@@ -27,5 +27,4 @@ if(method_exists($controller, $action) && is_callable([$controller, $action])) {
 } else {
 	throw new NotFoundException();
 }
-
 ?>

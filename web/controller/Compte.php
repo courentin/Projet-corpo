@@ -28,75 +28,79 @@ class Compte extends Controller
 				$err['global'] = 'Tous les champs doivent être complétés';
 			}
 		}
-		$this->render('inscription', ['err' => $err]);
+		$this->render('inscription', ['err' => isset($err) ? $err : array()]);
 	}
 
 
 
 	public function identification()
 	{
-		$mail = $_POST['identification']['email'];
-		$MDP = $_POST['identification']['MDP'];
+		$err = [];
+		if($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$mail = $_POST['identification']['email'];
+			$MDP = $_POST['identification']['MDP'];
 
-	  if(strlen($mail) != 0 && strlen($MDP) != NULL )
+			if(strlen($mail) != 0 && strlen($MDP) != NULL ) {
+				$db = App::getDatabase();
+			
+				$req = $db->query('select mail, idutilisateur,nom,prenom,solde,rang from Utilisateur  
+	                                   where mail  = ?
+	                                   and motdepasse = ? ', array($mail,
+	                                   	Utilisateur::cryptMdp($MDP)
+	                                   	));
+			
+				$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+				var_dump($resultat);
+	        }
 
-	   { 
-		$db = App::getDatabase();
-		
-		$req = $db->query('select mail, idutilisateur,nom,prenom,solde,rang from Utilisateur  
-                                   where mail  = ?
-                                   and motdepasse = ? ', array($mail,$MDP));
-		
-		$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-   
-           }
+			if (sizeof($resultat) == 1) {
+				$_SESSION['utilisateur'] = $resultat[0];
+				$this->redirect('compte');
+			} else {
+				$err['global'] = "Identifiants incorrects";
+			}
+		}
 
-	 if (sizeof($resultat) == 1)
-	  {
-		session_start();
-        $_SESSION['utilisateur'] = $resultat;
-		
-	  }
-		$this->render('identification');
+
+		$this->render('identification', [
+			'err' => $err
+		]);
 	}
 
-	/**
-	* /compte/valideradhesion/1/Valide
-	*/
-	public function valideradhesion($id,$status)
+	public function deconnexion()
 	{
-		//$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
-		$idValideur=1;
-
-	  if(strlen($id) != 0 && strlen($status) != 0)
-
-	   { 
-		$db = App::getDatabase();
-		
-		$req2 = $db->query('update demandecarte set 
-								   statut = ?,
-								   idvalideur = ? 
-                                   where idutilisateur  = ? ', array($status,$idValideur,$id));
-	   }
-
-	//Si 0 -> En attente & 1 -> validé & 2 -> Non validé
-	 if ($status == 1)
-	 {
-	 	$db = App::getDatabase();
-		
-		$req2 = $db->query('update utilisateur set 
-								   rang = 3, 
-                                   where idutilisateur  = ? ', array($id));
-	 }
-
-	 if (sizeof($req2) == 1)
-	  {
-	  	echo "Bonjour";
-		//$this->redirect('utilisateurs/index');
-	  }
-	
+		unset($_SESSION['utilisateur']);
+		$this->redirect('compte/identification');
 	}
 
-	
+	public function index()
+	{
 
+		$db = App::getDatabase();
+
+		$query = $db->query('select idcommande from commande where utilisateur = ? limit 10', array(
+			$_SESSION['utilisateur']['idutilisateur']
+		));
+		$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+		$this->render('index', [
+			'commandes' => $result
+		]);
+	}
+/*
+	public function demandeAdhesion()
+	{
+		if($utilisateur->$rang == NON_ADHERENT){
+			
+			$db = App::getDatabase();
+			$db->query('INSERT INTO DemandeCarte values (default, ?)', array(
+				$_SESSION['utilisateur']['idutilisateur']
+			));
+		}
+
+
+
+		$this->redirect('/compte/index');
+	}
+	*/
 }

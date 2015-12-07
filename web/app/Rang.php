@@ -15,12 +15,12 @@ class Rang
 	public function __construct($id = false) {
 		if($id) {
 			$db = App::getDatabase();
-			$rang = $db->query("SELECT * FROM Rang WHERE idRang = ?", array($id));
+			$rang = $db->query("SELECT * FROM Rang WHERE idrang = ?", array($id));
 			$rang = $rang->fetch(PDO::FETCH_ASSOC);
 			if(!$rang) throw new InvalidArgumentException();
-			$this->setLabel($rang['nomRang'])
-			     ->setLabel($rang['reduction'])
-			     ->setId($rang['idRang']);
+			$this->setLabel($rang['nomrang'])
+			     ->setReduction($rang['reduction'])
+			     ->setId($rang['idrang']);
 		}
 	}
 
