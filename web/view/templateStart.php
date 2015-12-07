@@ -40,6 +40,7 @@
       <a href="<?= App::route('compte/deconnexion') ?>" type="button" class="btn btn-default navbar-btn">Deconnexion</a href="">
       <?php else: ?>
       <a href="<?= App::route('compte/identification') ?>" type="button" class="btn btn-default navbar-btn">S'identifier</a>
+      <a href="<?= App::route('compte/inscription') ?>" type="button" class="btn btn-default navbar-btn">S'inscrire</a>
       <?php endif; ?>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

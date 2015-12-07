@@ -1,5 +1,5 @@
 <h1>Mon compte</h1>
-<h3><?= strtoupper ( $_SESSION['utilisateur']['nom'] ) . " " . ucfirst($_SESSION['utilisateur']['prenom']); ?></h3>
+<h3><?= strtoupper ( $_SESSION['utilisateur']['nom'] ) . " " . ucfirst($_SESSION['utilisateur']['prenom']); ?><span class="label label-default"> <?= $_SESSION['utilisateur']['solde'] ?> €</span></h3>
 <p></p>
 <?php
 echo "email";
