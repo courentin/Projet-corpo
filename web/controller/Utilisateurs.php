@@ -45,26 +45,25 @@ class Utilisateurs extends Controller
 	}
 
 	/**
-	* /compte/valideradhesion/1/Valide
+	* /utilisateurs/valideradhesion/1/1
 	*/
 	public function valideradhesion($id,$status)
 	{
-		//$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
-		$idValideur=1;
+		$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
 
 	  if(strlen($id) != 0 && strlen($status) != 0)
 
 	   { 
 		$db = App::getDatabase();
 		
-		$req = $db->query('update demandecarte set 
-								   status = ? 
-								   valideur = ? 
+		$req2 = $db->query('update demandecarte set 
+								   statut = ? ,
+								   idvalideur = ? 
                                    where idutilisateur  = ? ', array($status,$idValideur,$id));
 	   }
 
 
-	 if (sizeof($resultat) == 1)
+	 if (sizeof($req2) == 1)
 	  {
 		$this->redirect('utilisateurs/index');
 	  }

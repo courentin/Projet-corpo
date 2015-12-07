@@ -19,19 +19,19 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?= App::route('') ?>">Corpo</a>
+      <a class="navbar-brand" href="<?= App::route('index/') ?>">Corpo</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-           <li class="active"><a href="<?= App::route('compte') ?>">
+           <li class="active"><a href="<?= App::route('compte/') ?>">
            <?php 
             if(isset($_SESSION['utilisateur'])) echo strtoupper($_SESSION['utilisateur']['nom']) . " ".ucfirst($_SESSION['utilisateur']['prenom']) ?>
            <span class="sr-only">(current)</span></a></li>
           <li><a href="#">Carte</a></li>
           <li><a href="#">Commande</a></li>
-          <li><a href="/utilisateurs" >Gestion utilisateurs</a></li>
+          <li><a href="<?= App::route('utilisateurs/') ?>" >Gestion utilisateurs</a></li>
 
         
       </ul>

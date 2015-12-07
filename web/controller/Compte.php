@@ -50,7 +50,6 @@ class Compte extends Controller
 	                                   	));
 			
 				$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-				var_dump($resultat);
 	        }
 
 			if (sizeof($resultat) == 1) {
@@ -75,6 +74,7 @@ class Compte extends Controller
 
 	public function index()
 	{
+
 		$db = App::getDatabase();
 
 		$query = $db->query('select idcommande from commande where utilisateur = ? limit 10', array(
