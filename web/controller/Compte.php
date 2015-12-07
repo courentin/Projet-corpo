@@ -32,4 +32,25 @@ class Compte extends Controller
 			'err' => $err
 		]);
 	}
+
+	public function index()
+	{
+		$this->render('index');
+	}
+/*
+	public function demandeAdhesion()
+	{
+		if($utilisateur->$rang == NON_ADHERENT){
+			
+			$db = App::getDatabase();
+			$db->query('INSERT INTO DemandeCarte values (default, ?)', array(
+				$_SESSION['utilisateur']['idutilisateur']
+			));
+		}
+
+
+
+		$this->redirect('/compte/index');
+	}
+	*/
 }

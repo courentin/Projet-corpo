@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Corpo<?php if(defined('TITRE')) echo ' - '.TITRE?></title>
-	<link rel="stylesheet" href="/public/bootstrap.css" />
+	<link rel="stylesheet" href="../public/bootstrap.css" />
 </head>
 <body>
 

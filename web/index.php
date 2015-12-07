@@ -27,5 +27,4 @@ if(method_exists($controller, $action) && is_callable([$controller, $action])) {
 } else {
 	throw new NotFoundException();
 }
-
 ?>
