@@ -7,28 +7,26 @@ class Produits extends Controller
 	public function ajouterProduit()
 	{
 		$db = App::getDatabase();
-		$categorie = $db->query('Select nomcategorieproduit from categorieproduit');
-		$catproduit = $categorie->fetchAll(PDO::FETCH_COLUMN);
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-var_dump($catproduit);
+		$categorie = $db->query('Select idcategorieproduit, nomcategorieproduit from categorieproduit');
+		$result = $categorie->fetchAll(PDO::FETCH_ASSOC);
+		$catproduit = array();
+
+		foreach ($result as $cat) {
+			$catproduit[$cat['nomcategorieproduit']] = $cat['idcategorieproduit'];
+		}
+
 			if($_SERVER['REQUEST_METHOD'] === 'POST') 
 			{
+					$data = $_POST['ajouterProduit'];
+					$req = $db->query('Insert into Produit Values (default,?,?,?,?)' , array($data['nomproduit'],$data['prix'],$data['stock'],$data['categorieProduit']));
 
-					$req = $db->query('Insert into Produit Values (default,?,?,?,?)' , array($nomProduit,$prix,$stock,$catProduit));
-
-					if (sizeof($req) == 1)
-				    {
-					  $this->redirect('produits/index/');
-				    }
-
+					$success = "Produit ".$data['nomproduit']." ajouté !";
+					unset($_POST['ajouterProduit']);
 		    }
 
 		$this->render('ajouterProduit', array(
-		    	'catproduit' => $catproduit
+		    	'catproduit' => $catproduit,
+		    	'success' => isset($success) ? $success : null
 		    ));
 	}
 			

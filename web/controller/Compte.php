@@ -50,7 +50,6 @@ class Compte extends Controller
 	                                   	));
 			
 				$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-				var_dump($resultat);
 	        }
 
 			if (sizeof($resultat) == 1) {

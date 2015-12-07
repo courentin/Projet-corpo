@@ -10,15 +10,15 @@ define('TITRE', 'Inscription');
 			//'errors'        => $err 
 		));
 
-		echo $form->input('nom_produit', ['label' => 'Nom Produit']);
+		echo $form->input('nomproduit', ['label' => 'Nom Produit']);
 		echo $form->input('prix' ,[ 'type' => 'number' ]);
 		echo $form->input('stock', [ 'type' => 'number' ]);
 
 
 		echo $form->select('categorieProduit',$catproduit, ['label' => 'Catégorie Produit']);
 		?>
-
-		<?php if(isset($err['global'])) echo '<p class="alert alert-danger">' . $err['global'] . '</p>'; ?>
-		<input type="submit" class="btn btn-primary" value="S'inscrire">
+		<?php if(isset($success)) echo '<p class="alert alert-success">' . $success.'</p>'; ?>
+		<?php if(isset($err['global'])) echo '<p class="alert alert-danger">' . $err['global'] .'</p>'; ?>
+		<input type="submit" class="btn btn-primary" value="Enregistrer">
 	</form>
 </div>
