@@ -18,6 +18,32 @@ class Utilisateurs extends Controller
 		]);
 	}
 
+	public function listeMembres()
+	{
+		$db = App::getDatabase();
+		$req = $db->query('SELECT nom, prenom, mail, rang FROM utilisateur where rang<=2 ORDER BY nom ASC');
+		$result = $req->fetchAll(PDO::FETCH_ASSOC);
+		/*$this->render('index', [
+			'utilisateurs' => $result
+		]);*/
+		/*Affichage à faire*/
+	}
+
+	public function editer($idUtilisateur)
+	{
+		$err = [];
+		if($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$idUtilisateur = $_POST['utilisateurs']['idUtilisateur'];
+		}
+
+		$db = App::getDatabase();
+		$req = $db->query('SELECT * FROM Utilisateur WHERE idUtilisateur = ?', array($idUtilisateur));
+		$result['editer_utilisateur'] = $req->fetch(PDO::FETCH_ASSOC);
+		$this->render('editer', [
+			'utilisateur' => $result
+		]);
+	}
+
 	/**
 	* /compte/valideradhesion/1/Valide
 	*/
