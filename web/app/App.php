@@ -10,4 +10,8 @@ class App{
         return self::$db;
     }
 
+    static function route($route)
+    {
+    	return WEBROOT.$route;
+    }
 }
