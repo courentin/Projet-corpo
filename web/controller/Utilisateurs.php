@@ -31,14 +31,14 @@ class Utilisateurs extends Controller
 	   { 
 		$db = App::getDatabase();
 		
-		$req = $db->query('update demandecarte set 
-								   status = ? 
-								   valideur = ? 
+		$req2 = $db->query('update demandecarte set 
+								   statut = ? ,
+								   idvalideur = ? 
                                    where idutilisateur  = ? ', array($status,$idValideur,$id));
 	   }
 
 
-	 if (sizeof($resultat) == 1)
+	 if (sizeof($req2) == 1)
 	  {
 		$this->redirect('utilisateurs/index');
 	  }
