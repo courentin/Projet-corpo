@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS CommandeProduit CASCADE;
+﻿DROP TABLE IF EXISTS CommandeProduit CASCADE;
 DROP TABLE IF EXISTS Produit CASCADE;
 DROP TABLE IF EXISTS CategorieProduit CASCADE;
 DROP TABLE IF EXISTS Commande CASCADE;
@@ -23,7 +23,10 @@ rang int NOT NULL REFERENCES Rang);
 
 CREATE TABLE DemandeCarte (
 idDemande serial PRIMARY KEY,
-idUtilisateur int REFERENCES Utilisateur NOT NULL);
+idUtilisateur int REFERENCES Utilisateur NOT NULL,
+idValideur int, FOREIGN KEY (idValideur) REFERENCES Utilisateur (idUtilisateur),
+--Si 0 -> En attente & 1 -> validé & 2 -> Non validé
+statut int NOT NULL);
 
 CREATE TABLE Commande (
 idCommande serial PRIMARY KEY,

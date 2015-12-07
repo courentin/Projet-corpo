@@ -54,9 +54,37 @@ class Compte extends Controller
 	 if (sizeof($resultat) == 1)
 	  {
 		session_start();
-            	$_SESSION['utilisateur'] = $resultat;
+        $_SESSION['utilisateur'] = $resultat;
 		
 	  }
 		$this->render('identification');
 	}
+
+	/**
+	* /compte/valideradhesion/1/Valide
+	*/
+	public function valideradhesion($id,$status)
+	{
+		//$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
+		$idValideur=1;
+
+	  if(strlen($id) != 0 && strlen($status) != 0)
+
+	   { 
+		$db = App::getDatabase();
+		
+		$req = $db->query('update demandecarte set 
+								   status = ? 
+								   valideur = ? 
+                                   where idutilisateur  = ? ', array($status,$idValideur,$id));
+	   }
+
+
+	 if (sizeof($resultat) == 1)
+	  {
+		$this->redirect('utilisateurs/index');
+	  }
+	
+	}
+
 }
