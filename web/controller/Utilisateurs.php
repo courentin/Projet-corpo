@@ -23,8 +23,7 @@ class Utilisateurs extends Controller
 	*/
 	public function valideradhesion($id,$status)
 	{
-		//$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
-		$idValideur=1;
+		$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
 
 	  if(strlen($id) != 0 && strlen($status) != 0)
 
