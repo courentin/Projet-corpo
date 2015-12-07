@@ -73,18 +73,30 @@ class Compte extends Controller
 	   { 
 		$db = App::getDatabase();
 		
-		$req = $db->query('update demandecarte set 
-								   status = ? 
-								   valideur = ? 
+		$req2 = $db->query('update demandecarte set 
+								   statut = ?,
+								   idvalideur = ? 
                                    where idutilisateur  = ? ', array($status,$idValideur,$id));
 	   }
 
+	//Si 0 -> En attente & 1 -> validé & 2 -> Non validé
+	 if ($status == 1)
+	 {
+	 	$db = App::getDatabase();
+		
+		$req2 = $db->query('update utilisateur set 
+								   rang = 3, 
+                                   where idutilisateur  = ? ', array($id));
+	 }
 
-	 if (sizeof($resultat) == 1)
+	 if (sizeof($req2) == 1)
 	  {
-		$this->redirect('utilisateurs/index');
+	  	echo "Bonjour";
+		//$this->redirect('utilisateurs/index');
 	  }
 	
 	}
+
+	
 
 }
