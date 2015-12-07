@@ -47,7 +47,7 @@ class FormHelper
 
 		$result .= "<select name='$this->name[$name]' class='form-control'>";
 		foreach ($datas as $data => $value) {
-			$result .= "<option value='$value'>$data</option>";
+			$result .= "<option value='$data'>$value</option>";
 		}
 		$result .= '</select>';
 		$result .= "</div>";

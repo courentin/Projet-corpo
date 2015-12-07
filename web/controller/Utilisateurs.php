@@ -19,7 +19,7 @@ class Utilisateurs extends Controller
 	}
 
 	/**
-	* /compte/valideradhesion/1/Valide
+	* /utilisateurs/valideradhesion/1/1
 	*/
 	public function valideradhesion($id,$status)
 	{
