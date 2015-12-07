@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 	<title>Corpo<?php if(defined('TITRE')) echo ' - '.TITRE?></title>
-	<link rel="stylesheet" href="../public/bootstrap.css" />
+	<link rel="stylesheet" href="<?= WEBROOT."/public/bootstrap.css" ?>" />
 </head>
 <body>
 
