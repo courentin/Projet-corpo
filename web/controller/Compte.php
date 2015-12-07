@@ -32,4 +32,33 @@ class Compte extends Controller
 			'err' => $err
 		]);
 	}
+
+	public function identification()
+	{
+		$mail = $_POST[‘identification’][‘email’];
+		$MDP = $_POST[‘identification’][‘MDP’];
+
+	  if(strlen($email) != 0 && strlen($MDP) != NULL )
+
+	   { 
+		$db = App::getDatabase();
+		
+		$req = $db->query(“select Email, idutilisateur,nom,prénom,solde,rang from Utilisateur  
+                                   where Email  = ?
+                                   and PASSWORD = ? ”, array(
+			$_POST['MAIL’],
+			$_POST['MDP']
+		));
+		$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+   
+           }
+
+	 if (sizeof($resultat) == 1)
+	  {
+		session_start();
+            	$_SESSION[‘utilisateur’] = $resultat;
+		
+	  }
+		$this->render(‘identification’);
+	}
 }
