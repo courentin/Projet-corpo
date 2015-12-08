@@ -4,6 +4,39 @@
 */
 class Produits extends Controller
 {	
+
+
+	public function index()
+	{
+		$db = App::getDatabase();
+		$listproduit = $db->query('SELECT nomproduit, prix, nomcategorieproduit FROM produit JOIN categorieproduit ON produit.categorieproduit=categorieproduit.idcategorieproduit ');
+		$result = $listproduit->fetchAll(PDO::FETCH_ASSOC);
+
+		$this->render('listerProduit', array( 'produits' => $result ));
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public function ajouter()
 	{
 		$db = App::getDatabase();
