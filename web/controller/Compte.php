@@ -83,7 +83,7 @@ class Compte extends Controller
 
 	public function index()
 	{
-
+		Autorisation::autoriser('connect', 'compte/identification/');
 		$db = App::getDatabase();
 		$query = $db->query('SELECT idcommande, datecommande, SUM(commandeproduit.quantite*produit.prix) as montant
 			                 FROM commande
@@ -108,6 +108,7 @@ class Compte extends Controller
 
 	public function demandeAdhesion()
 	{
+		Autorisation::nePasAutoriser(Rang::ADHERENT, 'compte/');
 		if($_SESSION['utilisateur']['idrang'] == Rang::NON_ADHERENT){
 			$db = App::getDatabase();
 			$db->query('INSERT INTO DemandeCarte values (default, ?, NULL, 2)', array(
