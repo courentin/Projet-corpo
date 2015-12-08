@@ -52,7 +52,7 @@ class Produits extends Controller
 			if($_SERVER['REQUEST_METHOD'] === 'POST') 
 			{
 					$data = $_POST['ajouterProduit'];
-					$req = $db->query('Insert into Produit Values (default,?,?,?,?)' , array($data['nomproduit'],$data['prix'],$data['stock'],$data['categorieProduit']));
+					$req = $db->query('Insert into Produit (nomproduit, prix, stock, categorieproduit) Values (?,?,?,?)' , array($data['nomproduit'],$data['prix'],$data['stock'],$data['categorieProduit']));
 
 					$success = "Produit ".$data['nomproduit']." ajouté !";
 					unset($_POST['ajouterProduit']);

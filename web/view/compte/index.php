@@ -1,5 +1,5 @@
 <h1>Mon compte</h1>
-<h3><?= strtoupper ( $_SESSION['utilisateur']['nom'] ) . " " . ucfirst($_SESSION['utilisateur']['prenom']); ?><span class="label label-default"> <?= $_SESSION['utilisateur']['solde'] ?> €</span></h3>
+<h3><?= strtoupper ( $_SESSION['utilisateur']['nom'] ) . " " . ucfirst($_SESSION['utilisateur']['prenom']); ?> <span class="label label-default"><?= $_SESSION['utilisateur']['solde'] ?> €</span></h3>
 
 <?php if($statutDemande === false): ?>
 <a class="btn btn-primary" href="<?= App::route('compte/demandeAdhesion/') ?>">Demande d'adhesion</a>

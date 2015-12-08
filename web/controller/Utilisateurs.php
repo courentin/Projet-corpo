@@ -4,13 +4,11 @@
 */
 class Utilisateurs extends Controller
 {
-	public function __construct()
-	{
-		# code...
-	}
+	public function __construct() {}
 
 	public function index(){
-		//Autorisation::autoriser(Rang::BUREAU);
+		Autorisation::autoriser(Rang::BUREAU, 'compte/identification');
+
 		$db = App::getDatabase();
 		$req = $db->query('SELECT * FROM utilisateur LEFT JOIN demandeCarte USING(idUtilisateur) JOIN rang ON rang.idrang = utilisateur.rang ORDER BY nom ASC');
 		$result = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -21,6 +19,8 @@ class Utilisateurs extends Controller
 
 	public function editer($idUtilisateur)
 	{
+		Autorisation::autoriser(Rang::MEMBRE, 'compte/identification');
+
 		$err = [];
 		$db = App::getDatabase();
 		if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -54,6 +54,7 @@ class Utilisateurs extends Controller
 
 	public function debloquer($idutilisateur)
 	{
+		Autorisation::autoriser(Rang::PRESIDENT, 'compte/identification');
 		$db = App::getDatabase();
 		$req = $db->query('UPDATE utilisateur SET try = 3 WHERE idutilisateur = ?', array($idutilisateur));
 		if(!$req) $err['global'] = "Erreur interne";
@@ -65,23 +66,21 @@ class Utilisateurs extends Controller
 	*/
 	public function valideradhesion($id,$status)
 	{
-		$idValideur = $_SESSION['utilisateur']['idutilisateur'] ;
+		Autorisation::autoriser(Rang::MEMBRE, 'compte/identification');
 
-	  if(strlen($id) != 0 && strlen($status) != 0)
+		$idValideur = $_SESSION['utilisateur']['idutilisateur'];
 
-	   { 
+		if(strlen($id) != 0 && strlen($status) != 0) { 
 		$db = App::getDatabase();
 		
 		$req2 = $db->query('update demandecarte set 
 								   statut = ? ,
 								   idvalideur = ? 
                                    where idutilisateur  = ? ', array($status,$idValideur,$id));
-	   }
+		}
 
-
-	 if (sizeof($req2) == 1)
-	  {
-		$this->redirect('utilisateurs/index');
-	  }
+		if (sizeof($req2) == 1) {
+			$this->redirect('utilisateurs/index');
+		}
 	}
 } 
