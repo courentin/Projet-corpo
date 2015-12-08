@@ -1,8 +1,7 @@
-
+<div class="page-header">
+  <h1>Identification</h1>
+</div>
 <form method = 'post' action= ''>                                                                       
-<br>                                                                                     
-<br>
-<form action ="">
 
 		<?php
 				$form = new FormHelper('identification', array(

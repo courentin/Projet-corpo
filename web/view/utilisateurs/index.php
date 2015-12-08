@@ -1,4 +1,6 @@
-<h1>Liste des utilisateur</h1>
+<div class="page-header">
+  <h1>Liste des utilisateurs</h1>
+</div>
 <table id="liste_utilisateurs" class="table table-striped" >
 	<thead>
 		<tr>

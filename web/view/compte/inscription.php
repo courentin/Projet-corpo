@@ -1,8 +1,7 @@
-<?php
-define('TITRE', 'Inscription');
-?>
+<div class="page-header">
+  <h1>Inscription</h1>
+</div>
 <div class="row">
-	<h1>Inscription</h1>
 	<form method="POST" action="" class="col-md-6">
 		<?php
 		$form = new FormHelper('inscription', array(

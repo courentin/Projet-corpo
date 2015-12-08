@@ -19,17 +19,6 @@ class Utilisateurs extends Controller
 		]);
 	}
 
-	public function listeMembres()
-	{
-		$db = App::getDatabase();
-		$req = $db->query('SELECT nom, prenom, mail, rang FROM utilisateur where rang<=2 ORDER BY nom ASC');
-		$result = $req->fetchAll(PDO::FETCH_ASSOC);
-		/*$this->render('index', [
-			'utilisateurs' => $result
-		]);*/
-		/*Affichage à faire*/
-	}
-
 	public function editer($idUtilisateur)
 	{
 		$err = [];
