@@ -4,7 +4,30 @@
 */
 class Produits extends Controller
 {	
+	
+/*
+	public function ajouterCategorie()
+	{
+		$db = App::getDatabase();
+		foreach ($result as $cat) {
+			$catproduit[$cat['nomcategorieproduit']] = $cat['idcategorieproduit'];
+		}
 
+			if($_SERVER['REQUEST_METHOD'] === 'POST') 
+			{
+					$data = $_POST['ajouterProduit'];
+					$req = $db->query('Insert into categorieproduit Values (?)' , array($data['nomcategorieproduit']));
+
+					$success = "Produit ".$data['nomproduit']." ajouté !";
+					unset($_POST['ajouterProduit']);
+		    }
+
+		$this->render('ajouterCategorie', array(
+		    	'defaultValues' => $catproduit,
+		    	'success' => isset($success) ? $success : null
+		    ));
+	}
+*/
 
 	public function index()
 	{
@@ -13,29 +36,7 @@ class Produits extends Controller
 		$result = $listproduit->fetchAll(PDO::FETCH_ASSOC);
 
 		$this->render('lister', array( 'produits' => $result ));
-
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	public function ajouter()
 	{

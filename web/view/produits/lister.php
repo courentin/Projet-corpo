@@ -1,7 +1,8 @@
 <div class="page-header">
   <h1>Liste des produits</h1>
 </div>
-<td><a class="btn btn-primary" href="<?= App::route('produits/ajouter/')?>">Ajouter</a></td>
+<td><a class="btn btn-primary" href="<?= App::route('produits/ajouter/')?>">Ajouter Produit</a></td>
+<td><a class="btn btn-primary" href="<?= App::route('produits/ajouterCategorie/')?>">Ajouter Catégorie</a></td>
 <table id="liste_produits" class="table table-striped" >
 	<thead>
 		<tr>
