@@ -16,4 +16,9 @@ class Controller
 	{
 		header("Location: ".WEBROOT."$route");
 	}
+
+	protected function getUser()
+	{
+		return isset($_SESSION['utilisateur']) ? $_SESSION['utilisateur'] : null;
+	}
 }

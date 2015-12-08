@@ -76,30 +76,29 @@ class Compte extends Controller
 	{
 
 		$db = App::getDatabase();
-
-		$query = $db->query('select idcommande from commande where utilisateur = ? limit 10', array(
+		$query = $db->query('SELECT idcommande from commande where utilisateur = ? limit 10', array(
 			$_SESSION['utilisateur']['idutilisateur']
 		));
 		$result = $query->fetchAll(PDO::FETCH_ASSOC);
 
+		$demande = $db->query('SELECT statut FROM demandecarte WHERE idutilisateur = ?', array($this->getUser()['idutilisateur']))
+				 ->fetch(PDO::FETCH_COLUMN);
+
 		$this->render('index', [
-			'commandes' => $result
+			'commandes' => $result,
+			'statutDemande' => $demande
 		]);
 	}
-/*
+
 	public function demandeAdhesion()
 	{
-		if($utilisateur->$rang == NON_ADHERENT){
-			
+		if($_SESSION['utilisateur']['idrang'] == Rang::NON_ADHERENT){
 			$db = App::getDatabase();
-			$db->query('INSERT INTO DemandeCarte values (default, ?)', array(
+			$db->query('INSERT INTO DemandeCarte values (default, ?, NULL, 2)', array(
 				$_SESSION['utilisateur']['idutilisateur']
 			));
 		}
 
-
-
-		$this->redirect('/compte/index');
+		$this->redirect('compte/index');
 	}
-	*/
 }

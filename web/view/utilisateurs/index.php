@@ -1,30 +1,37 @@
-<table id="liste_utilisateurs" class="table" >
-	<tr>
-		<th>Nom</th>
-		<th>Prenom</th>
-		<th>Mail</th>
-		<th>Solde</th>
-		<th>Rang</th>
-		<th>Demande d'adhesion</th>
-		<th>Modifier</th>
-	</tr>
-	<?php 
-	$i = 0;
-	foreach ($utilisateurs as $utilisateur) {
-		echo "<tr>";
-		echo "<td>".$utilisateur['nom']."</td>";
-		echo "<td>".$utilisateur['prenom']."</td>";
-		echo "<td>".$utilisateur['mail']."</td>";
-		echo "<td>".$utilisateur['solde']."€</td>";
-		echo "<td>".$utilisateur['rang']."</td>";
-		if($utilisateur['rang']['iddemande'] !== null)
-			echo "<td><a href=''>valider</a> - <a href=''>refuser</a></td>";
-		else
-			echo "<td>Pas de demande</td>";
-		echo "<td><a class='btn btn-primary' href='".App::route('utilisateurs/editer/'.$utilisateur['idutilisateur'])."'>Modifier</a></td>";
-		echo "</tr>";
-		$i = $i + 1;
-	}
-	?>
+<h1>Liste des utilisateur</h1>
+<table id="liste_utilisateurs" class="table table-striped" >
+	<thead>
+		<tr>
+			<th>Nom</th>
+			<th>Prenom</th>
+			<th>Mail</th>
+			<th>Solde</th>
+			<th>Rang</th>
+			<th>Demande d'adhesion</th>
+			<th>Modifier</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($utilisateurs as $utilisateur): ?>
+		<tr>
+			<td><?= $utilisateur['nom'] ?></td>
+			<td><?= $utilisateur['prenom'] ?></td>
+			<td><?= $utilisateur['mail'] ?></td>
+			<td><?= $utilisateur['solde'] ?> €</td>
+			<td><?= $utilisateur['nomrang'] ?></td>
+			<td>
+		<?php if($utilisateur['iddemande'] !== null && $utilisateur['statut'] == 2) : ?>
+			<a class="btn btn-success" href="<?= App::route('utilisateurs/valideradhesion/'.$utilisateur['idutilisateur'].'/1') ?>">Valider</a>
+			<a class="btn btn-danger" href="<?= App::route('utilisateurs/valideradhesion/'.$utilisateur['idutilisateur'].'/0') ?>">Refuser</a>
+		<?php elseif($utilisateur['statut'] === 0): ?>
+			<span class="text-danger">Demande refusée</span>
+		<?php else: ?>
+			Pas de demande
+		<?php endif; ?>
+			</td>
+			<td><a class="btn btn-primary" href="<?= App::route('utilisateurs/editer/'.$utilisateur['idutilisateur']) ?>">Modifier</a></td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
 </table>
 

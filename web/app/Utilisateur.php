@@ -3,7 +3,7 @@
 class Utilisateur {
 	public  $id    = false;
 	public  $rang  = Rang::NON_ADHERENT;
-	public  $solde = null;
+	public  $solde = 0;
 	public  $prenom;
 	public  $nom;
 	public  $mdp;

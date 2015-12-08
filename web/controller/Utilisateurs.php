@@ -10,8 +10,9 @@ class Utilisateurs extends Controller
 	}
 
 	public function index(){
+		//Autorisation::autoriser(Rang::BUREAU);
 		$db = App::getDatabase();
-		$req = $db->query('SELECT * FROM utilisateur LEFT JOIN demandeCarte USING(idUtilisateur) ORDER BY nom ASC');
+		$req = $db->query('SELECT * FROM utilisateur LEFT JOIN demandeCarte USING(idUtilisateur) JOIN rang ON rang.idrang = utilisateur.rang ORDER BY nom ASC');
 		$result = $req->fetchAll(PDO::FETCH_ASSOC);
 		$this->render('index', [
 			'utilisateurs' => $result
@@ -32,15 +33,34 @@ class Utilisateurs extends Controller
 	public function editer($idUtilisateur)
 	{
 		$err = [];
+		$db = App::getDatabase();
 		if($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$idUtilisateur = $_POST['utilisateurs']['idUtilisateur'];
+			$datas = $_POST['editer_utilisateur'];
+			$req = $db->query('UPDATE utilisateur SET mail = ?, solde = ?, rang = ? WHERE idUtilisateur = ?', array(
+				$datas['mail'],
+				$datas['solde'],
+				$datas['rang'],
+				$idUtilisateur
+			));
+			
+			if($req)
+				$this->redirect('utilisateurs/index/');
+			else $err['global'] = "Erreur interne";
 		}
 
-		$db = App::getDatabase();
 		$req = $db->query('SELECT * FROM Utilisateur WHERE idUtilisateur = ?', array($idUtilisateur));
 		$result['editer_utilisateur'] = $req->fetch(PDO::FETCH_ASSOC);
+
+		$rangsq = $db->query('SELECT idrang, nomrang FROM rang')->fetchAll(PDO::FETCH_ASSOC);
+		$rangs = array();
+		foreach ($rangsq as $rang) {
+			$rangs[$rang['nomrang']] = $rang['idrang'];
+		}
+
 		$this->render('editer', [
-			'utilisateur' => $result
+			'utilisateur' => $result,
+			'rangs' => $rangs,
+			'err' => $err
 		]);
 	}
 
@@ -68,4 +88,4 @@ class Utilisateurs extends Controller
 		$this->redirect('utilisateurs/index');
 	  }
 	}
-}
+} 
