@@ -32,7 +32,8 @@ statut int NOT NULL);
 CREATE TABLE Commande (
 idCommande serial PRIMARY KEY,
 utilisateur int NOT NULL REFERENCES Utilisateur,
-serveur int REFERENCES Utilisateur);
+serveur int REFERENCES Utilisateur,
+dateCommande timestamp NOT NULL);
 
 CREATE TABLE CategorieProduit (
 idCategorieProduit serial PRIMARY KEY,

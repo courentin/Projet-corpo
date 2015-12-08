@@ -9,10 +9,26 @@
 <em class="text-danger">Demande d'adhesion refusée</em>
 <?php endif; ?>
 <h1>Mes dernières commandes</h1>
+<?php if(sizeof($commandes) > 0): ?>
 <table class="table">
-	<tr>
-		<th>Commande n°</th>
-		<th>Date</th>
-		<th>Montant</th>
-	</tr>
+	<thead>
+		<tr>
+			<th>Commande n°</th>
+			<th>Date</th>
+			<th>Montant</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach ($commandes as $commande): ?>
+		<tr>
+			<td><?= $commande['idcommande'] ?></td>
+			<?php $commande['datecommande'] = new DateTime($commande['datecommande']); ?>
+			<td><?= $commande['datecommande']->format('d/m/Y à H\hi') ?></td>
+			<td><?= $commande['montant'] ?> €</td>
+		</tr>
+	<?php endforeach; ?>
+	</tbody>
 </table>
+<?php else: ?>
+	<h2>Aucune commande :(</h2>
+<?php endif; ?>

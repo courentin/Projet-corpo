@@ -85,7 +85,14 @@ class Compte extends Controller
 	{
 
 		$db = App::getDatabase();
-		$query = $db->query('SELECT idcommande from commande where utilisateur = ? limit 10', array(
+		$query = $db->query('SELECT idcommande, datecommande, SUM(commandeproduit.quantite*produit.prix) as montant
+			                 FROM commande
+			                 JOIN commandeproduit ON commande.idcommande = commandeproduit.produit
+			                 JOIN produit ON produit.idproduit = commandeproduit.commande
+			                 WHERE utilisateur = ?
+			                 GROUP BY idcommande
+			                 ORDER BY datecommande DESC
+			                 LIMIT 10', array(
 			$_SESSION['utilisateur']['idutilisateur']
 		));
 		$result = $query->fetchAll(PDO::FETCH_ASSOC);
