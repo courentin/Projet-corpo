@@ -77,6 +77,7 @@ class Compte extends Controller
 
 	public function deconnexion()
 	{
+		Autorisation::autoriser('connect', 'compte/identification/');
 		unset($_SESSION['utilisateur']);
 		$this->redirect('compte/identification');
 	}

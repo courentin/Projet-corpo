@@ -7,14 +7,14 @@
 		public static function autoriser($rangAutorise, $redirect = null)
 		{
 			$auth = true;
-			if(isset($_SESSION['utilisateur']) && $rangAutorise !== 'connect') {
+			if(isset($_SESSION['utilisateur'])) {
+				if($rangAutorise !== 'connect') {
+					$db = App::getDatabase();
+					$utilisateur = new Utilisateur($_SESSION['utilisateur']['idUtilisateur']);
 
-				$db = App::getDatabase();
-				$utilisateur = new Utilisateur($_SESSION['utilisateur']['idUtilisateur']);
-
-				if($utilisateur->getRang()->getId() >= $rangAutorise)
-					$auth = false;
-
+					if($utilisateur->getRang()->getId() >= $rangAutorise)
+						$auth = false;
+				}
 			} else $auth = false;
 
 			if(!$auth) {

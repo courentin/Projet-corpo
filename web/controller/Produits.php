@@ -13,7 +13,6 @@ class Produits extends Controller
 		$result = $listproduit->fetchAll(PDO::FETCH_ASSOC);
 
 		$this->render('lister', array( 'produits' => $result ));
-
 	}
 
 	public function ajouter()
