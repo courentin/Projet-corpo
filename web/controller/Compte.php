@@ -40,24 +40,33 @@ class Compte extends Controller
 			$mail = $_POST['identification']['email'];
 			$MDP = $_POST['identification']['MDP'];
 
+			$db = App::getDatabase();
 			if(strlen($mail) != 0 && strlen($MDP) != NULL ) {
-				$db = App::getDatabase();
 			
-				$req = $db->query('select mail, idutilisateur,nom,prenom,solde,rang from Utilisateur  
-	                                   where mail  = ?
-	                                   and motdepasse = ? ', array($mail,
-	                                   	Utilisateur::cryptMdp($MDP)
-	                                   	));
+				$req = $db->query('select mail, idutilisateur,nom,prenom,solde,rang, try, motdepasse from Utilisateur  
+	                                   where mail  = ?', array($mail));
 			
 				$resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-	        }
 
-			if (sizeof($resultat) == 1) {
-				$_SESSION['utilisateur'] = $resultat[0];
-				$this->redirect('compte');
-			} else {
-				$err['global'] = "Identifiants incorrects";
-			}
+				if (sizeof($resultat) == 1) {
+					if($resultat[0]['try'] > 0) {
+						if($resultat[0]['motdepasse'] == Utilisateur::cryptMdp($MDP)) {
+							$_SESSION['utilisateur'] = $resultat[0];
+							$req = $db->query('update utilisateur set try = 3 where mail = ?', array($mail));
+							$this->redirect('compte');
+						} else { // mdp non correct
+							$req = $db->query('update utilisateur set try = try - 1 where mail = ?', array($mail));
+							$err['global'] = $resultat[0]['try']." tentatives restantes";
+						}
+					} else {
+						$err['global'] = "Compte bloqué";
+					}
+				} else {
+					$err['global'] = "Identifiants incorrects";
+				}
+	        } else {
+				$err['global'] = "Identifiants incorrects";	
+	        }
 		}
 
 

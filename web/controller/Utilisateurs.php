@@ -32,9 +32,8 @@ class Utilisateurs extends Controller
 				$idUtilisateur
 			));
 			
-			if($req)
-				$this->redirect('utilisateurs/index/');
-			else $err['global'] = "Erreur interne";
+			if(!$req) $err['global'] = "Erreur interne";
+			$this->redirect('utilisateurs/index/');
 		}
 
 		$req = $db->query('SELECT * FROM Utilisateur WHERE idUtilisateur = ?', array($idUtilisateur));
@@ -51,6 +50,14 @@ class Utilisateurs extends Controller
 			'rangs' => $rangs,
 			'err' => $err
 		]);
+	}
+
+	public function debloquer($idutilisateur)
+	{
+		$db = App::getDatabase();
+		$req = $db->query('UPDATE utilisateur SET try = 3 WHERE idutilisateur = ?', array($idutilisateur));
+		if(!$req) $err['global'] = "Erreur interne";
+		$this->redirect('utilisateurs/index/');
 	}
 
 	/**

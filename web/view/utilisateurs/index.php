@@ -11,6 +11,7 @@
 			<th>Rang</th>
 			<th>Demande d'adhesion</th>
 			<th>Modifier</th>
+			<th>Débloquer</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -32,6 +33,11 @@
 		<?php endif; ?>
 			</td>
 			<td><a class="btn btn-primary" href="<?= App::route('utilisateurs/editer/'.$utilisateur['idutilisateur']) ?>">Modifier</a></td>
+			<td>
+		<?php if($utilisateur['try'] <= 0): ?>
+			<a class="btn btn-warning" href="<?= App::route('utilisateurs/debloquer/'.$utilisateur['idutilisateur']) ?>">Débloquer</a>
+		<?php endif; ?>
+			</td>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>
