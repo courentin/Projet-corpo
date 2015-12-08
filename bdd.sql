@@ -19,7 +19,8 @@ prenom text NOT NULL,
 mail text UNIQUE NOT NULL,
 motDePasse text NOT NULL,
 solde numeric(10,2),
-rang int NOT NULL REFERENCES Rang);
+rang int NOT NULL REFERENCES Rang,
+try int DEFAULT 3);
 
 CREATE TABLE DemandeCarte (
 idDemande serial PRIMARY KEY,
